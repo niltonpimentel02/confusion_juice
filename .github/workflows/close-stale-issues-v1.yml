@@ -19,9 +19,9 @@ jobs:
           stale-pr-message: 'This PR is stale because it has been open 45 days with no activity. Remove stale label or comment or this will be closed in 10 days.'
           # close-issue-message: 'This issue was closed because it has been stalled for 5 days with no activity.'
           close-issue-message: |
-            Hey @${{ github.event.issue.user.login }}! 👋
+            Hey there! 👋
             
-            Your issue **"${{ github.event.issue.title }}"** (#${{ github.event.issue.number }}) was automatically closed due to inactivity.
+            Your issue was automatically closed due to inactivity.
             
             📅 **Timeline:**
             - Marked as stale after 2 days of inactivity
@@ -34,8 +34,23 @@ jobs:
             
             Thanks for your contribution! 🙏
           
-          close-pr-message: 'This PR was closed because it has been stalled for 10 days with no activity.'
-          days-before-issue-stale: 2
-          days-before-pr-stale: 1
-          days-before-issue-close: 3
-          days-before-pr-close: 2
+          # close-pr-message: 'This PR was closed because it has been stalled for 10 days with no activity.'
+          close-pr-message: |
+            Hi there! 👋
+            
+            Your pull request was automatically closed due to inactivity.
+            
+            📅 **Timeline:**
+            - Marked as stale after 1 day of inactivity  
+            - Closed after 2 additional days without response
+            
+            🔄 **To continue:**
+            - Reopen this PR if you want to continue working on it
+            - Address any pending review comments
+            - Rebase/merge with the latest main branch if needed
+            
+            Thanks for your contribution! 🚀
+          days-before-issue-stale: 0
+          days-before-pr-stale: 0
+          days-before-issue-close: 0
+          days-before-pr-close: 0
