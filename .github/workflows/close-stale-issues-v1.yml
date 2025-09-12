@@ -28,19 +28,19 @@ jobs:
 
             Sua issue foi fechada automaticamente por inatividade.
             
-            📅 Linha do tempo:
+            📅 **Linha do tempo:**
+            - Marcada como inativa após 2 dias sem atividade
+            - Fechada após 4 dias adicionais sem resposta
+
+            💡 **Próximos passos:**
+            - Se isso ainda for relevante, reabra e forneça uma atualização
+            - Considere adicionar mais detalhes ou contexto, se necessário
+            - Sinta-se à vontade para criar uma nova issue se a situação tiver mudado
             
-            Marcada como inativa após 2 dias sem atividade
-            Fechada após 4 dias adicionais sem resposta
-            💡 Próximos passos:
-            
-            Se isso ainda for relevante, reabra e forneça uma atualização
-            Considere adicionar mais detalhes ou contexto, se necessário
-            Sinta-se à vontade para criar uma nova issue se a situação tiver mudado
             Obrigado pela sua contribuição! 🙏
 
             🇬🇧 **English**
-            
+
             Hey there! 👋
             
             Your issue was automatically closed due to inactivity.
@@ -67,15 +67,15 @@ jobs:
 
             Seu pull request foi fechado automaticamente por inatividade.
             
-            📅 Linha do tempo:
+            📅 **Linha do tempo:**
+            - Marcado como inativo após 1 dia sem atividade
+            - Fechado após 2 dias adicionais sem resposta
+
+            🔄 **Para continuar:**
+            - Reabra este PR se quiser continuar trabalhando nele
+            - Resolva quaisquer comentários de revisão pendentes
+            - Faça rebase/merge com a main mais recente, se necessário
             
-            Marcado como inativo após 1 dia sem atividade
-            Fechado após 2 dias adicionais sem resposta
-            🔄 Para continuar:
-            
-            Reabra este PR se quiser continuar trabalhando nele
-            Resolva quaisquer comentários de revisão pendentes
-            Faça rebase/merge com a main mais recente, se necessário
             Obrigado pela sua contribuição! 🚀
 
             🇬🇧 **English**
