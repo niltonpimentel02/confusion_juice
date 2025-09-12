@@ -1,7 +1,7 @@
 name: 'Close stale issues and PRs'
 on:
-  schedule:
-    - cron: '00 4 * * *'
+  # schedule:
+    # - cron: '00 4 * * *'
   workflow_dispatch:
 
 permissions:
@@ -19,6 +19,28 @@ jobs:
           stale-pr-message: 'This PR is stale because it has been open 45 days with no activity. Remove stale label or comment or this will be closed in 10 days.'
           # close-issue-message: 'This issue was closed because it has been stalled for 5 days with no activity.'
           close-issue-message: |
+            📌 Esta mensagem está tanto em português quanto em inglês (mais abaixo)  — assim todo mundo consegue acompanhar!
+            📌 This message is in both Portuguese and English (further down) — so everyone can follow along!
+
+            🇧🇷 **Português**
+
+            👋 Olá!
+
+            Sua issue foi fechada automaticamente por inatividade.
+            
+            📅 Linha do tempo:
+            
+            Marcada como inativa após 2 dias sem atividade
+            Fechada após 4 dias adicionais sem resposta
+            💡 Próximos passos:
+            
+            Se isso ainda for relevante, reabra e forneça uma atualização
+            Considere adicionar mais detalhes ou contexto, se necessário
+            Sinta-se à vontade para criar uma nova issue se a situação tiver mudado
+            Obrigado pela sua contribuição! 🙏
+
+            🇬🇧 **English**
+            
             Hey there! 👋
             
             Your issue was automatically closed due to inactivity.
@@ -36,6 +58,28 @@ jobs:
           
           # close-pr-message: 'This PR was closed because it has been stalled for 10 days with no activity.'
           close-pr-message: |
+            📌 Esta mensagem está tanto em português quanto em inglês (mais abaixo)  — assim todo mundo consegue acompanhar!
+            📌 This message is in both Portuguese and English (further down) — so everyone can follow along!
+
+            🇧🇷 **Português**
+
+            👋 Olá!
+
+            Seu pull request foi fechado automaticamente por inatividade.
+            
+            📅 Linha do tempo:
+            
+            Marcado como inativo após 1 dia sem atividade
+            Fechado após 2 dias adicionais sem resposta
+            🔄 Para continuar:
+            
+            Reabra este PR se quiser continuar trabalhando nele
+            Resolva quaisquer comentários de revisão pendentes
+            Faça rebase/merge com a main mais recente, se necessário
+            Obrigado pela sua contribuição! 🚀
+
+            🇬🇧 **English**
+
             Hi there! 👋
             
             Your pull request was automatically closed due to inactivity.
