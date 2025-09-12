@@ -80,7 +80,7 @@ jobs:
 
             🇬🇧 **English**
 
-            Hi there! 👋
+            Hey there! 👋
             
             Your pull request was automatically closed due to inactivity.
             
@@ -94,7 +94,7 @@ jobs:
             - Rebase/merge with the latest main branch if needed
             
             Thanks for your contribution! 🚀
-          days-before-issue-stale: 0
-          days-before-pr-stale: 0
-          days-before-issue-close: 0
-          days-before-pr-close: 0
+          days-before-issue-stale: 1
+          days-before-pr-stale: 1
+          days-before-issue-close: 1
+          days-before-pr-close: 1
