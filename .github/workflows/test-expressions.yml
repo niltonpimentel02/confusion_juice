@@ -13,10 +13,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Compute differences in step env and print
-        env:
-          ISSUE_DIFF: ${{ fromJSON(env.ISSUE_CLOSE_DAYS) - fromJSON(env.ISSUE_STALE_DAYS) }}
-          PR_DIFF: ${{ fromJSON(env.PR_CLOSE_DAYS) - fromJSON(env.PR_STALE_DAYS) }}
+      - name: Compute differences in shell and print
         run: |
+          ISSUE_DIFF=$(( ISSUE_CLOSE_DAYS - ISSUE_STALE_DAYS ))
+          PR_DIFF=$(( PR_CLOSE_DAYS - PR_STALE_DAYS ))
+
           echo "Issue stale: ${ISSUE_STALE_DAYS} | close: ${ISSUE_CLOSE_DAYS} | diff: ${ISSUE_DIFF}"
           echo "PR stale: ${PR_STALE_DAYS} | close: ${PR_CLOSE_DAYS} | diff: ${PR_DIFF}"
