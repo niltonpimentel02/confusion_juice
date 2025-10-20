@@ -20,11 +20,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Compute day differences
+        id: diffs
         run: |
           ISSUE_DIFF=$(( ISSUE_CLOSE_DAYS - ISSUE_STALE_DAYS ))
           PR_DIFF=$(( PR_CLOSE_DAYS - PR_STALE_DAYS ))
           echo "ISSUE_DIFF=${ISSUE_DIFF}" >> "$GITHUB_ENV"
           echo "PR_DIFF=${PR_DIFF}" >> "$GITHUB_ENV"
+          echo "issue_diff=${ISSUE_DIFF}" >> "$GITHUB_OUTPUT"
+          echo "pr_diff=${PR_DIFF}" >> "$GITHUB_OUTPUT"
 
       - name: Run actions/stale
         uses: actions/stale@v10
@@ -44,8 +47,8 @@ jobs:
             Sua issue foi fechada automaticamente por inatividade.
             
             📅 **Linha do tempo:**
-            - Marcada como inativa após ${ISSUE_STALE_DAYS} dias sem atividade
-            - Fechada após ${ISSUE_DIFF} dias adicionais sem resposta
+            - Marcada como inativa após ${{ env.ISSUE_STALE_DAYS }} dias sem atividade
+            - Fechada após ${{ steps.diffs.outputs.issue_diff }} dias adicionais sem resposta
 
             💡 **Próximos passos:**
             - Se isso ainda for relevante, reabra e forneça uma atualização
