@@ -1,5 +1,4 @@
-name: 'Close stale issues and PRs'
-
+name: 'Close stale issues and PRs - Test'
 on:
   schedule:
     - cron: '00 4 * * *'
@@ -10,18 +9,16 @@ permissions:
   issues: write
   pull-requests: write
 
-# Global variables
 env:
-  ISSUE_STALE_DAYS: '45'
-  ISSUE_CLOSE_DAYS: '60'
-  PR_STALE_DAYS: '30'
-  PR_CLOSE_DAYS: '45'
+  ISSUE_STALE_DAYS: '0'
+  ISSUE_CLOSE_DAYS: '0'
+  PR_STALE_DAYS: '0'
+  PR_CLOSE_DAYS: '0'
 
 jobs:
   stale:
     runs-on: ubuntu-latest
     steps:
-      # Compute diffs once and export for later steps
       - name: Compute day differences
         run: |
           ISSUE_DIFF=$(( ISSUE_CLOSE_DAYS - ISSUE_STALE_DAYS ))
@@ -29,38 +26,13 @@ jobs:
           echo "ISSUE_DIFF=${ISSUE_DIFF}" >> "$GITHUB_ENV"
           echo "PR_DIFF=${PR_DIFF}" >> "$GITHUB_ENV"
 
+      - name: Run actions/stale
       - uses: actions/stale@v10
         with:
-          stale-issue-message: |
-            📌 Esta mensagem está tanto em português quanto em inglês (mais abaixo)  — assim todo mundo consegue acompanhar!
-            📌 This message is in both Portuguese and English (further down) — so everyone can follow along!
-
-            🇧🇷 **Português**
-
-            👋 Olá!
-
-            Esta issue está obsoleta porque ficou aberta por ${ISSUE_STALE_DAYS} dias sem atividade. Remova o rótulo de stale ou comente, caso contrário ela será fechada em ${ISSUE_DIFF} dias.
-
-            🇬🇧 **English**
-
-            Hey there! 👋
-
-            This issue is stale because it has been open ${ISSUE_STALE_DAYS} days with no activity. Remove stale label or comment or this will be closed in ${ISSUE_DIFF} days.
-          stale-pr-message: |
-            📌 Esta mensagem está tanto em português quanto em inglês (mais abaixo)  — assim todo mundo consegue acompanhar!
-            📌 This message is in both Portuguese and English (further down) — so everyone can follow along!
-
-            🇧🇷 **Português**
-
-            👋 Olá!
-
-            Este PR está obsoleto porque ficou aberto por ${PR_STALE_DAYS} dias sem atividade. Remova o rótulo de stale ou comente, caso contrário ele será fechado em ${PR_DIFF} dias.
-
-            🇬🇧 **English**
-
-            Hey there! 👋
-
-            This PR is stale because it has been open ${PR_STALE_DAYS} days with no activity. Remove stale label or comment or this will be closed in ${PR_DIFF} days.
+          # include-only-assigned: true
+          stale-issue-message: 'This issue is stale because it has been open 30 days with no activity. Remove stale label or comment or this will be closed in 5 days.'
+          stale-pr-message: 'This PR is stale because it has been open 45 days with no activity. Remove stale label or comment or this will be closed in 10 days.'
+          # close-issue-message: 'This issue was closed because it has been stalled for 5 days with no activity.'
           close-issue-message: |
             📌 Esta mensagem está tanto em português quanto em inglês (mais abaixo)  — assim todo mundo consegue acompanhar!
             📌 This message is in both Portuguese and English (further down) — so everyone can follow along!
@@ -70,7 +42,7 @@ jobs:
             👋 Olá!
 
             Sua issue foi fechada automaticamente por inatividade.
-
+            
             📅 **Linha do tempo:**
             - Marcada como inativa após ${ISSUE_STALE_DAYS} dias sem atividade
             - Fechada após ${ISSUE_DIFF} dias adicionais sem resposta
@@ -79,25 +51,27 @@ jobs:
             - Se isso ainda for relevante, reabra e forneça uma atualização
             - Considere adicionar mais detalhes ou contexto, se necessário
             - Sinta-se à vontade para criar uma nova issue se a situação tiver mudado
-
+            
             Obrigado pela sua contribuição! 🙏
 
             🇬🇧 **English**
 
             Hey there! 👋
-
+            
             Your issue was automatically closed due to inactivity.
-
+            
             📅 **Timeline:**
-            - Marked as stale after ${ISSUE_STALE_DAYS} days of inactivity
-            - Closed after ${ISSUE_DIFF} additional days without response
-
+            - Marked as stale after 2 days of inactivity
+            - Closed after 4 additional days without response
+            
             💡 **Next steps:**
             - If this is still relevant, please reopen and provide an update
             - Consider adding more details or context if needed
             - Feel free to create a new issue if the situation has changed
-
+            
             Thanks for your contribution! 🙏
+          
+          # close-pr-message: 'This PR was closed because it has been stalled for 10 days with no activity.'
           close-pr-message: |
             📌 Esta mensagem está tanto em português quanto em inglês (mais abaixo)  — assim todo mundo consegue acompanhar!
             📌 This message is in both Portuguese and English (further down) — so everyone can follow along!
@@ -107,34 +81,38 @@ jobs:
             👋 Olá!
 
             Seu pull request foi fechado automaticamente por inatividade.
-
+            
             📅 **Linha do tempo:**
-            - Marcado como inativo após ${PR_STALE_DAYS} dias sem atividade
-            - Fechado após ${PR_DIFF} dias adicionais sem resposta
+            - Marcado como inativo após 1 dia sem atividade
+            - Fechado após 2 dias adicionais sem resposta
 
             🔄 **Para continuar:**
             - Reabra este PR se quiser continuar trabalhando nele
             - Resolva quaisquer comentários de revisão pendentes
             - Faça rebase/merge com a main mais recente, se necessário
-
+            
             Obrigado pela sua contribuição! 🚀
 
             🇬🇧 **English**
 
             Hey there! 👋
-
+            
             Your pull request was automatically closed due to inactivity.
-
+            
             📅 **Timeline:**
-            - Marked as stale after ${PR_STALE_DAYS} days of inactivity
-            - Closed after ${PR_DIFF} additional days without response
-
+            - Marked as stale after 1 day of inactivity  
+            - Closed after 2 additional days without response
+            
             🔄 **To continue:**
             - Reopen this PR if you want to continue working on it
             - Address any pending review comments
             - Rebase/merge with the latest main branch if needed
-
+            
             Thanks for your contribution! 🚀
+          # days-before-issue-stale: 1
+          # days-before-pr-stale: 1
+          # days-before-issue-close: 1
+          # days-before-pr-close: 1
           days-before-issue-stale: ${{ env.ISSUE_STALE_DAYS }}
           days-before-pr-stale: ${{ env.PR_STALE_DAYS }}
           days-before-issue-close: ${{ env.ISSUE_CLOSE_DAYS }}
