@@ -13,37 +13,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Show env as strings
+      - name: Compute differences in step env and print
+        env:
+          ISSUE_DIFF: ${{ fromJSON(env.ISSUE_CLOSE_DAYS) - fromJSON(env.ISSUE_STALE_DAYS) }}
+          PR_DIFF: ${{ fromJSON(env.PR_CLOSE_DAYS) - fromJSON(env.PR_STALE_DAYS) }}
         run: |
-          echo "ISSUE_STALE_DAYS=${ISSUE_STALE_DAYS}"
-          echo "ISSUE_CLOSE_DAYS=${ISSUE_CLOSE_DAYS}"
-          echo "PR_STALE_DAYS=${PR_STALE_DAYS}"
-          echo "PR_CLOSE_DAYS=${PR_CLOSE_DAYS}"
-
-      - name: Compute differences using expressions
-        run: |
-          echo "Issue additional days (close - stale): ${{ fromJSON(env.ISSUE_CLOSE_DAYS) - fromJSON(env.ISSUE_STALE_DAYS) }}"
-          echo "PR additional days (close - stale): ${{ fromJSON(env.PR_CLOSE_DAYS) - fromJSON(env.PR_STALE_DAYS) }}"
-
-      - name: Use expressions to set step outputs (deprecated syntax but fine for demo)
-        id: calc
-        run: |
-          echo "issue_additional_days=${{ fromJSON(env.ISSUE_CLOSE_DAYS) - fromJSON(env.ISSUE_STALE_DAYS) }}" >> "$GITHUB_OUTPUT"
-          echo "pr_additional_days=${{ fromJSON(env.PR_CLOSE_DAYS) - fromJSON(env.PR_STALE_DAYS) }}" >> "$GITHUB_OUTPUT"
-
-      - name: Read back outputs
-        run: |
-          echo "Issue additional days output: ${{ steps.calc.outputs.issue_additional_days }}"
-          echo "PR additional days output: ${{ steps.calc.outputs.pr_additional_days }}"
-
-      - name: Interpolate arithmetic inside multiline string (simulated)
-        run: |
-          cat << 'EOF'
-          Mensagem de teste:
-          - Issue marca como stale após ${{ env.ISSUE_STALE_DAYS }} dias.
-          - Fecha após ${{ env.ISSUE_CLOSE_DAYS }} dias.
-          - Dias adicionais: ${{ fromJSON(env.ISSUE_CLOSE_DAYS) - fromJSON(env.ISSUE_STALE_DAYS) }}.
-          - PR marca como stale após ${{ env.PR_STALE_DAYS }} dias.
-          - Fecha após ${{ env.PR_CLOSE_DAYS }} dias.
-          - Dias adicionais: ${{ fromJSON(env.PR_CLOSE_DAYS) - fromJSON(env.PR_STALE_DAYS) }}.
-          EOF
+          echo "Issue stale: ${ISSUE_STALE_DAYS} | close: ${ISSUE_CLOSE_DAYS} | diff: ${ISSUE_DIFF}"
+          echo "PR stale: ${PR_STALE_DAYS} | close: ${PR_CLOSE_DAYS} | diff: ${PR_DIFF}"
