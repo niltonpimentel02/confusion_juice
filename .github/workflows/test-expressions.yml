@@ -27,7 +27,7 @@ jobs:
           echo "PR_DIFF=${PR_DIFF}" >> "$GITHUB_ENV"
 
       - name: Run actions/stale
-      - uses: actions/stale@v10
+        uses: actions/stale@v10
         with:
           # include-only-assigned: true
           stale-issue-message: 'This issue is stale because it has been open 30 days with no activity. Remove stale label or comment or this will be closed in 5 days.'
