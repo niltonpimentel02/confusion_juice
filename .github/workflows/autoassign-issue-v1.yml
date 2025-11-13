@@ -108,7 +108,7 @@ jobs:
           issue-number: ${{ env.ISSUE_NUMBER }}
           body: |
             🇧🇷 **Português**
-            ⚠️ Esta issue #${{ github.event.issue.number }} já está atribuída a ${{ steps.check_existing_assignees.outputs.assignee_logins }}. Se você acredita que deveria ser reatribuída, converse com a pessoa atual ou com os mantenedores.
+            ⚠️ Issue #${{ github.event.issue.number }} já está atribuída a ${{ steps.check_existing_assignees.outputs.assignee_logins }}. Se você acredita que deveria ser reatribuída, converse com a pessoa atual ou com os mantenedores.
 
             🇬🇧 **English**
-            ⚠️ This issue #${{ github.event.issue.number }} is already assigned to ${{ steps.check_existing_assignees.outputs.assignee_logins }}. If you think it should be reassigned, please coordinate with the current assignee or the maintainers.
+            ⚠️ Issue #${{ github.event.issue.number }} is already assigned to ${{ steps.check_existing_assignees.outputs.assignee_logins }}. If you think it should be reassigned, please coordinate with the current assignee or the maintainers.
