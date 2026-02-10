@@ -1,5 +1,3 @@
-
-
 def badly_formatted_function(x, y, z):
     result = x + y + z
     if result == 0:
@@ -15,8 +13,6 @@ class MyClass:
 
     def get_name(self):
         return self.name
-
-
 
 
 def another_function():
