@@ -34,7 +34,7 @@ jobs:
       - name: Auto-fix lint issues
         run: |
           poetry run ruff format .
-          poetry run ruff check --fix .
+          poetry run ruff check --fix --unsafe-fixes .
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git diff --quiet && exit 0
