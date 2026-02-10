@@ -1,0 +1,46 @@
+name: Check Lint
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+permissions:
+  contents: write
+
+jobs:
+  lint:
+    name: Check Lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Poetry Setup
+        uses: snok/install-poetry@v1
+
+      - name: Cache Poetry dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pypoetry
+          key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
+          restore-keys: ${{ runner.os }}-poetry-
+
+      - name: Install Dependencies
+        run: poetry install
+
+      - name: Auto-fix lint issues
+        run: |
+          poetry run ruff format .
+          poetry run ruff check --fix .
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git diff --quiet && exit 0
+          git add -A
+          git commit -m "style: auto-fix lint issues with ruff"
+          git push
+
+      - name: Run Lint Check
+        run: make check
