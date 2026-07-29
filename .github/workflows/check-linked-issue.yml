@@ -20,7 +20,7 @@ jobs:
     env:
       GH_TOKEN: ${{ github.token }}
       PR_NUMBER: ${{ github.event.pull_request.number }}
-      # LABEL: missing-linked-issue
+      # LABEL: missing-linked-issue #
       LABEL: invalid
 
     steps:
