@@ -58,6 +58,7 @@ jobs:
               gh pr comment "$PR_NUMBER" \
                 --repo "$GITHUB_REPOSITORY" \
                 --body-file - <<'EOF'
+
           <!-- missing-linked-issue-check -->
           This pull request does not have a linked issue.
 
