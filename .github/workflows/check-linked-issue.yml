@@ -1,0 +1,81 @@
+name: Check linked issue
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - edited
+      - synchronize
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  check-linked-issue:
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ github.token }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      # LABEL: missing-linked-issue
+      LABEL: invalid
+      COMMENT_MARKER: "<!-- missing-linked-issue-check -->"
+
+    steps:
+      - name: Check linked issue
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          linked_issues="$(
+            gh pr view "$PR_NUMBER" \
+              --repo "$GITHUB_REPOSITORY" \
+              --json closingIssuesReferences \
+              --jq '.closingIssuesReferences | length'
+          )"
+
+          if [ "$linked_issues" -eq 0 ]; then
+            gh label create "$LABEL" \
+              --repo "$GITHUB_REPOSITORY" \
+              --description "Pull request has no linked issue" \
+              --color "D93F0B" \
+              --force
+
+            gh pr edit "$PR_NUMBER" \
+              --repo "$GITHUB_REPOSITORY" \
+              --add-label "$LABEL"
+
+            already_commented="$(
+              gh pr view "$PR_NUMBER" \
+                --repo "$GITHUB_REPOSITORY" \
+                --json comments \
+                --jq --arg marker "$COMMENT_MARKER" \
+                'any(.comments[].body; contains($marker))'
+            )"
+
+            if [ "$already_commented" != "true" ]; then
+              gh pr comment "$PR_NUMBER" \
+                --repo "$GITHUB_REPOSITORY" \
+                --body-file - <<EOF
+          $COMMENT_MARKER
+          This pull request does not have a linked issue.
+
+          Please update the **Issue Relacionada** section in the PR description:
+
+          \`\`\`md
+          ## Issue Relacionada
+
+          Closes #<numero_da_issue>
+          \`\`\`
+
+          Replace \`<numero_da_issue>\` with the issue number.
+          EOF
+            fi
+          else
+            gh pr edit "$PR_NUMBER" \
+              --repo "$GITHUB_REPOSITORY" \
+              --remove-label "$LABEL" 2>/dev/null || true
+          fi
