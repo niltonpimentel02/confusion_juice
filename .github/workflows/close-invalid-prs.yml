@@ -1,0 +1,56 @@
+name: Close invalid pull requests
+
+on:
+  schedule:
+    # Runs every day at 09:00 UTC.
+    - cron: "0 9 * * *"
+
+  # Allows manual execution from the Actions tab.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+jobs:
+  close-invalid-prs:
+    runs-on: ubuntu-latest
+
+    env:
+      GH_TOKEN: ${{ github.token }}
+      LABEL: missing linked issue
+
+    steps:
+      - name: Close pull requests with label
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          pr_numbers="$(
+            gh pr list \
+              --repo "$GITHUB_REPOSITORY" \
+              --state open \
+              --label "$LABEL" \
+              --limit 100 \
+              --json number \
+              --jq '.[].number'
+          )"
+
+          if [ -z "$pr_numbers" ]; then
+            echo "No open pull requests found with label '$LABEL'."
+            exit 0
+          fi
+
+          while read -r pr_number; do
+            [ -z "$pr_number" ] && continue
+
+            gh pr comment "$pr_number" \
+              --repo "$GITHUB_REPOSITORY" \
+              --body "This pull request was automatically closed because it does not have a linked issue."
+
+            gh pr close "$pr_number" \
+              --repo "$GITHUB_REPOSITORY"
+
+            echo "Closed pull request #$pr_number."
+          done <<< "$pr_numbers"
