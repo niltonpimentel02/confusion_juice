@@ -22,7 +22,6 @@ jobs:
       PR_NUMBER: ${{ github.event.pull_request.number }}
       # LABEL: missing-linked-issue
       LABEL: invalid
-      COMMENT_MARKER: "<!-- missing-linked-issue-check -->"
 
     steps:
       - name: Check linked issue
@@ -52,26 +51,25 @@ jobs:
               gh pr view "$PR_NUMBER" \
                 --repo "$GITHUB_REPOSITORY" \
                 --json comments \
-                --jq --arg marker "$COMMENT_MARKER" \
-                'any(.comments[].body; contains($marker))'
+                --jq 'any(.comments[].body; contains("<!-- missing-linked-issue-check -->"))'
             )"
 
             if [ "$already_commented" != "true" ]; then
               gh pr comment "$PR_NUMBER" \
                 --repo "$GITHUB_REPOSITORY" \
-                --body-file - <<EOF
-          $COMMENT_MARKER
+                --body-file - <<'EOF'
+          <!-- missing-linked-issue-check -->
           This pull request does not have a linked issue.
 
           Please update the **Issue Relacionada** section in the PR description:
 
-          \`\`\`md
+          ```md
           ## Issue Relacionada
 
           Closes #<numero_da_issue>
-          \`\`\`
+          ```
 
-          Replace \`<numero_da_issue>\` with the issue number.
+          Replace `<numero_da_issue>` with the issue number.
           EOF
             fi
           else
